@@ -1,3 +1,4 @@
+// src/components/Modal.jsx
 import React from "react";
 
 export default function Modal({ children, onClose }) {

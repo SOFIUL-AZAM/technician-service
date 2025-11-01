@@ -9,6 +9,7 @@ import TechnicianProfile from "./components/profile/TechnicianProfile";
 import UserDashboard from "./components/dashboards/UserDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 
+
 export default function App() {
   return (
     <Router>

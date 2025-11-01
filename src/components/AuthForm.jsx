@@ -1,29 +1,28 @@
-// src/components/AuthForm.jsx
 import React, { useState } from "react";
 import { auth, db } from "../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
 
-export default function AuthForm() {
-  const [isLogin, setIsLogin] = useState(true);
+export default function AuthForm({ isLogin, onSuccess }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("User"); // default role
-  const navigate = useNavigate();
 
   const handleSignup = async () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+
       // Save user role in Firestore
       await setDoc(doc(db, "users", user.uid), {
         email: user.email,
         role,
         name: "",
       });
+
       alert("Signup successful! You can now login.");
-      setIsLogin(true);
+      // Automatically switch to login mode
+      onSuccess("toggle");
     } catch (err) {
       console.error(err);
       alert("Error during signup: " + err.message);
@@ -42,13 +41,13 @@ export default function AuthForm() {
         alert("No user data found!");
         return;
       }
+
       const userData = docSnap.data();
       const userRole = userData.role;
 
-      // Redirect based on role
-      if (userRole === "Admin") navigate("/admin");
-      else if (userRole === "Technician") navigate("/technician");
-      else navigate("/user");
+      // Call onSuccess with role
+      onSuccess(userRole);
+
     } catch (err) {
       console.error(err);
       alert("Login failed: " + err.message);
@@ -63,7 +62,7 @@ export default function AuthForm() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-20 p-6 bg-white rounded-xl shadow-md">
+    <div className="max-w-md mx-auto p-6 bg-white rounded-xl shadow-md">
       <h2 className="text-2xl font-bold mb-4 text-center">{isLogin ? "Login" : "Sign Up"}</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -76,7 +75,6 @@ export default function AuthForm() {
             required
           />
         </div>
-
         <div>
           <label className="block text-sm font-medium text-slate-700">Password</label>
           <input
@@ -114,7 +112,7 @@ export default function AuthForm() {
       <p className="mt-4 text-center text-sm text-slate-600">
         {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
         <button
-          onClick={() => setIsLogin(!isLogin)}
+          onClick={() => onSuccess("toggle")}
           className="text-sky-600 hover:underline"
         >
           {isLogin ? "Sign Up" : "Login"}

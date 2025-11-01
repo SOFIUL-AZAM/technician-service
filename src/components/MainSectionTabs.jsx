@@ -15,48 +15,61 @@ const reviews = [
 
 export default function MainSectionTabs() {
   return (
-    <div className="bg-sky-50"> {/* Full width background */}
-      <section className="py-16">
+    <div className="bg-slate-50"> {/* match HeroBanner background */}
+      <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-slate-900 mb-6">
+
+          {/* Title */}
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-center text-slate-900 mb-4">
             Our Service Stats & Reviews
           </h2>
-          <p className="text-center text-slate-600 mb-12">
+          <p className="text-center text-slate-600 text-lg mb-16">
             Join thousands of satisfied users and experienced technicians.
           </p>
 
           {/* Stats Section */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center mb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-20">
             {stats.map((stat) => (
-              <div key={stat.id} className="bg-white p-6 rounded-xl shadow-sm border-2 border-slate-300 hover:shadow-md transition">
-                <p className="text-4xl font-extrabold text-sky-600 mb-2">
+              <div
+                key={stat.id}
+                className="bg-white p-8 rounded-2xl shadow-md border border-slate-200 hover:shadow-lg transition transform hover:-translate-y-1"
+              >
+                <p className="text-4xl sm:text-5xl font-extrabold text-sky-600 mb-2">
                   {stat.value}+
                 </p>
-                <p className="text-slate-700 font-medium">{stat.label}</p>
+                <p className="text-slate-700 font-medium text-lg">{stat.label}</p>
               </div>
             ))}
           </div>
 
           {/* Reviews Section */}
-          <div className="max-w-4xl mx-auto">
-            <h3 className="text-2xl font-semibold text-slate-900 mb-8 text-center">User Reviews</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="max-w-6xl mx-auto">
+            <h3 className="text-2xl sm:text-3xl font-semibold text-slate-900 mb-12 text-center">
+              User Reviews
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {reviews.map((review) => (
-                <div key={review.id} className="bg-white p-6 rounded-xl shadow-sm border-2 border-slate-300 hover:shadow-md transition">
+                <div
+                  key={review.id}
+                  className="bg-white p-6 sm:p-8 rounded-2xl shadow-md border border-slate-200 hover:shadow-lg transition transform hover:-translate-y-1"
+                >
                   <div className="flex items-center mb-4">
-                    <div className="h-12 w-12 rounded-full bg-sky-500 text-white flex items-center justify-center font-bold">
+                    <div className="h-12 w-12 rounded-full bg-sky-500 text-white flex items-center justify-center font-bold text-lg">
                       {review.name[0]}
                     </div>
                     <div className="ml-3">
                       <p className="font-semibold text-slate-900">{review.name}</p>
                     </div>
                   </div>
-                  <p className="text-slate-700 mb-2">{review.comment}</p>
-                  <p className="text-yellow-500 font-semibold">{"⭐".repeat(review.rating)}</p>
+                  <p className="text-slate-700 mb-3">{review.comment}</p>
+                  <p className="text-yellow-500 font-semibold text-lg">
+                    {"⭐".repeat(review.rating)}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
+
         </div>
       </section>
     </div>
